@@ -1,0 +1,324 @@
+{
+  "format": "chorale_arranger_events",
+  "version": 1,
+  "key_root_pc": 0,
+  "style": "common_practice_strict",
+  "seed": 7,
+  "beam_width": 40,
+  "total_beats": 4.0,
+  "voices": [
+    "soprano",
+    "alto",
+    "tenor",
+    "bass"
+  ],
+  "voice_ranges": {
+    "soprano": [
+      60,
+      81
+    ],
+    "alto": [
+      55,
+      74
+    ],
+    "tenor": [
+      48,
+      69
+    ],
+    "bass": [
+      40,
+      64
+    ]
+  },
+  "segments": [
+    {
+      "fixed": {
+        "soprano": 72
+      },
+      "duration": 1.0,
+      "chord_candidates": [
+        {
+          "root_pc": 0,
+          "quality": "maj",
+          "label": "I"
+        }
+      ]
+    },
+    {
+      "fixed": {
+        "soprano": 69
+      },
+      "duration": 1.0,
+      "chord_candidates": [
+        {
+          "root_pc": 5,
+          "quality": "maj",
+          "label": "IV"
+        }
+      ]
+    },
+    {
+      "fixed": {
+        "soprano": 67
+      },
+      "duration": 1.0,
+      "chord_candidates": [
+        {
+          "root_pc": 7,
+          "quality": "7",
+          "label": "V7"
+        }
+      ]
+    },
+    {
+      "fixed": {
+        "soprano": 72,
+        "bass": 48
+      },
+      "duration": 1.0,
+      "chord_candidates": [
+        {
+          "root_pc": 0,
+          "quality": "maj",
+          "label": "I"
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "event_id": "0:soprano",
+      "segment": 0,
+      "voice": "soprano",
+      "midi": 72,
+      "name": "C5",
+      "start_beat": 0.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "I",
+      "fixed": true
+    },
+    {
+      "event_id": "0:alto",
+      "segment": 0,
+      "voice": "alto",
+      "midi": 64,
+      "name": "E4",
+      "start_beat": 0.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "I",
+      "fixed": false
+    },
+    {
+      "event_id": "0:tenor",
+      "segment": 0,
+      "voice": "tenor",
+      "midi": 55,
+      "name": "G3",
+      "start_beat": 0.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "I",
+      "fixed": false
+    },
+    {
+      "event_id": "0:bass",
+      "segment": 0,
+      "voice": "bass",
+      "midi": 48,
+      "name": "C3",
+      "start_beat": 0.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "I",
+      "fixed": false
+    },
+    {
+      "event_id": "1:soprano",
+      "segment": 1,
+      "voice": "soprano",
+      "midi": 69,
+      "name": "A4",
+      "start_beat": 1.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "IV",
+      "fixed": true
+    },
+    {
+      "event_id": "1:alto",
+      "segment": 1,
+      "voice": "alto",
+      "midi": 65,
+      "name": "F4",
+      "start_beat": 1.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "IV",
+      "fixed": false
+    },
+    {
+      "event_id": "1:tenor",
+      "segment": 1,
+      "voice": "tenor",
+      "midi": 53,
+      "name": "F3",
+      "start_beat": 1.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "IV",
+      "fixed": false
+    },
+    {
+      "event_id": "1:bass",
+      "segment": 1,
+      "voice": "bass",
+      "midi": 48,
+      "name": "C3",
+      "start_beat": 1.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "IV",
+      "fixed": false
+    },
+    {
+      "event_id": "2:soprano",
+      "segment": 2,
+      "voice": "soprano",
+      "midi": 67,
+      "name": "G4",
+      "start_beat": 2.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "V7",
+      "fixed": true
+    },
+    {
+      "event_id": "2:alto",
+      "segment": 2,
+      "voice": "alto",
+      "midi": 65,
+      "name": "F4",
+      "start_beat": 2.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "V7",
+      "fixed": false
+    },
+    {
+      "event_id": "2:tenor",
+      "segment": 2,
+      "voice": "tenor",
+      "midi": 55,
+      "name": "G3",
+      "start_beat": 2.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "V7",
+      "fixed": false
+    },
+    {
+      "event_id": "2:bass",
+      "segment": 2,
+      "voice": "bass",
+      "midi": 50,
+      "name": "D3",
+      "start_beat": 2.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "V7",
+      "fixed": false
+    },
+    {
+      "event_id": "3:soprano",
+      "segment": 3,
+      "voice": "soprano",
+      "midi": 72,
+      "name": "C5",
+      "start_beat": 3.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "I",
+      "fixed": true
+    },
+    {
+      "event_id": "3:alto",
+      "segment": 3,
+      "voice": "alto",
+      "midi": 64,
+      "name": "E4",
+      "start_beat": 3.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "I",
+      "fixed": false
+    },
+    {
+      "event_id": "3:tenor",
+      "segment": 3,
+      "voice": "tenor",
+      "midi": 55,
+      "name": "G3",
+      "start_beat": 3.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "I",
+      "fixed": false
+    },
+    {
+      "event_id": "3:bass",
+      "segment": 3,
+      "voice": "bass",
+      "midi": 48,
+      "name": "C3",
+      "start_beat": 3.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "I",
+      "fixed": true
+    }
+  ],
+  "status": "optimal",
+  "total_cost": 38.0,
+  "cost_breakdown": {
+    "doubling": 0.0,
+    "smoothness": 20.0,
+    "common_tone": 0.0,
+    "completeness": 4.0,
+    "seventh_resolution": 14.0
+  },
+  "violations": []
+}

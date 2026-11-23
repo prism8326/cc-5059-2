@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>短篇合唱和声编配器</title>
+<link rel="stylesheet" href="/web/app.css">
+</head>
+<body>
+<header>
+  <h1>短篇合唱和声编配器 <span class="sub">SATB · 硬约束 / 偏好代价分离</span></h1>
+  <div class="header-actions">
+    <button id="btn-demo">载入可行示例</button>
+    <button id="btn-conflict">载入矛盾固定音示例</button>
+    <button id="btn-solve" class="primary">求解编配</button>
+  </div>
+</header>
+
+<main>
+<section class="panel" id="panel-input">
+  <h2>1 · 输入：旋律、和弦候选与固定音</h2>
+  <div class="grid-controls">
+    <label>调性（大调主音）
+      <select id="key-select"></select>
+    </label>
+    <label>风格配置
+      <select id="style-select"></select>
+    </label>
+    <label>束宽 beam
+      <input id="beam-width" type="number" min="1" max="500" value="40">
+    </label>
+    <label>随机种子
+      <input id="seed" type="number" value="0">
+    </label>
+    <label>速度 BPM
+      <input id="bpm" type="number" min="40" max="180" value="90">
+    </label>
+    <label>候选枚举上限
+      <input id="candidate-cap" type="number" min="0" value="0" title="0 表示不限制">
+    </label>
+  </div>
+  <div id="style-description" class="style-note"></div>
+  <details>
+    <summary>风格规则级别与权重（硬条件不可关闭；历史惯例可降级或关闭）</summary>
+    <div id="rule-table"></div>
+  </details>
+  <div class="segments-head">
+    <h3>逐段编辑</h3>
+    <div class="row-actions">
+      <button id="btn-add-segment">+ 增加段落</button>
+      <button id="btn-remove-segment">− 删除末段</button>
+    </div>
+  </div>
+  <div id="segment-editor"></div>
+</section>
+
+<section class="panel" id="panel-result">
+  <h2>2 · 求解结果与代价分项</h2>
+  <div id="status-banner" class="banner empty">尚未求解</div>
+  <div id="recovery-box" class="recovery hidden"></div>
+  <div class="result-grid">
+    <div>
+      <h3>代价分项</h3>
+      <table id="cost-table"><thead><tr><th>规则</th><th>级别</th><th>代价</th></tr></thead><tbody></tbody></table>
+      <div id="diagnostics"></div>
+    </div>
+    <div>
+      <h3>束搜索轨迹（可复现性）</h3>
+      <table id="beam-table"><thead><tr><th>段</th><th>枚举候选</th><th>不同状态</th><th>保留束</th><th>同代价 tie band</th></tr></thead><tbody></tbody></table>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>3 · 声部走向与合成和声</h2>
+  <div class="playback-bar">
+    <button id="btn-play-ensemble">▶ 合奏试听</button>
+    <button id="btn-stop">■ 停止</button>
+    <span class="voice-buttons">
+      <button data-voice="soprano" class="vp v-soprano">女高 S</button>
+      <button data-voice="alto" class="vp v-alto">女低 A</button>
+      <button data-voice="tenor" class="vp v-tenor">男高 T</button>
+      <button data-voice="bass" class="vp v-bass">男低 B</button>
+    </span>
+    <span id="engine-note" class="muted"></span>
+  </div>
+  <canvas id="score-canvas" width="1080" height="420"></canvas>
+  <div id="voice-table-wrap"></div>
+</section>
+
+<section class="panel">
+  <h2>4 · 导出与回读</h2>
+  <div class="row-actions">
+    <button id="btn-export-events">导出音符事件 JSON</button>
+    <button id="btn-export-midi">导出 MIDI</button>
+    <button id="btn-export-wav">导出合奏 WAV</button>
+    <button id="btn-reimport">从当前事件 JSON 回读并重解</button>
+    <input type="file" id="reimport-file" accept=".json,application/json" class="hidden">
+  </div>
+  <pre id="events-preview" class="events-preview"></pre>
+</section>
+</main>
+
+<footer>
+  内核与界面同一求解器；音域等硬条件不会被悄悄违反，恢复路径会显式列出被放宽的规则。
+  历史风格规则仅在所选风格配置内生效，不代表所有音乐的普遍法则。
+</footer>
+
+<script src="/web/app.js"></script>
+</body>
+</html>

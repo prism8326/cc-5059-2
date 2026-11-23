@@ -1,0 +1,302 @@
+{
+  "format": "chorale_arranger_events",
+  "version": 1,
+  "key_root_pc": 0,
+  "style": "common_practice_strict",
+  "seed": 7,
+  "beam_width": 40,
+  "total_beats": 3.0,
+  "voices": [
+    "soprano",
+    "alto",
+    "tenor",
+    "bass"
+  ],
+  "voice_ranges": {
+    "soprano": [
+      60,
+      81
+    ],
+    "alto": [
+      55,
+      74
+    ],
+    "tenor": [
+      48,
+      69
+    ],
+    "bass": [
+      40,
+      64
+    ]
+  },
+  "segments": [
+    {
+      "fixed": {
+        "soprano": 84,
+        "bass": 36
+      },
+      "duration": 1.0,
+      "chord_candidates": [
+        {
+          "root_pc": 0,
+          "quality": "maj",
+          "label": "I"
+        }
+      ]
+    },
+    {
+      "fixed": {
+        "soprano": 83,
+        "bass": 43
+      },
+      "duration": 1.0,
+      "chord_candidates": [
+        {
+          "root_pc": 7,
+          "quality": "7",
+          "label": "V7"
+        }
+      ]
+    },
+    {
+      "fixed": {
+        "soprano": 84,
+        "bass": 36
+      },
+      "duration": 1.0,
+      "chord_candidates": [
+        {
+          "root_pc": 0,
+          "quality": "maj",
+          "label": "I"
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "event_id": "0:soprano",
+      "segment": 0,
+      "voice": "soprano",
+      "midi": 84,
+      "name": "C6",
+      "start_beat": 0.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "I",
+      "fixed": true
+    },
+    {
+      "event_id": "0:alto",
+      "segment": 0,
+      "voice": "alto",
+      "midi": 72,
+      "name": "C5",
+      "start_beat": 0.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "I",
+      "fixed": false
+    },
+    {
+      "event_id": "0:tenor",
+      "segment": 0,
+      "voice": "tenor",
+      "midi": 60,
+      "name": "C4",
+      "start_beat": 0.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "I",
+      "fixed": false
+    },
+    {
+      "event_id": "0:bass",
+      "segment": 0,
+      "voice": "bass",
+      "midi": 36,
+      "name": "C2",
+      "start_beat": 0.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "I",
+      "fixed": true
+    },
+    {
+      "event_id": "1:soprano",
+      "segment": 1,
+      "voice": "soprano",
+      "midi": 83,
+      "name": "B5",
+      "start_beat": 1.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "V7",
+      "fixed": true
+    },
+    {
+      "event_id": "1:alto",
+      "segment": 1,
+      "voice": "alto",
+      "midi": 67,
+      "name": "G4",
+      "start_beat": 1.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "V7",
+      "fixed": false
+    },
+    {
+      "event_id": "1:tenor",
+      "segment": 1,
+      "voice": "tenor",
+      "midi": 65,
+      "name": "F4",
+      "start_beat": 1.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "V7",
+      "fixed": false
+    },
+    {
+      "event_id": "1:bass",
+      "segment": 1,
+      "voice": "bass",
+      "midi": 43,
+      "name": "G2",
+      "start_beat": 1.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "V7",
+      "fixed": true
+    },
+    {
+      "event_id": "2:soprano",
+      "segment": 2,
+      "voice": "soprano",
+      "midi": 84,
+      "name": "C6",
+      "start_beat": 2.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "I",
+      "fixed": true
+    },
+    {
+      "event_id": "2:alto",
+      "segment": 2,
+      "voice": "alto",
+      "midi": 72,
+      "name": "C5",
+      "start_beat": 2.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "I",
+      "fixed": false
+    },
+    {
+      "event_id": "2:tenor",
+      "segment": 2,
+      "voice": "tenor",
+      "midi": 60,
+      "name": "C4",
+      "start_beat": 2.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "I",
+      "fixed": false
+    },
+    {
+      "event_id": "2:bass",
+      "segment": 2,
+      "voice": "bass",
+      "midi": 36,
+      "name": "C2",
+      "start_beat": 2.0,
+      "duration_beats": 1.0,
+      "start_time": null,
+      "duration_time": null,
+      "velocity": 78,
+      "chord_label": "I",
+      "fixed": true
+    }
+  ],
+  "status": "recovered",
+  "total_cost": 6073.0,
+  "cost_breakdown": {
+    "range": 5000.0,
+    "doubling": 0.0,
+    "completeness": 20.0,
+    "upper_spacing": 1000.0,
+    "smoothness": 36.0,
+    "common_tone": 3.0,
+    "seventh_resolution": 14.0
+  },
+  "violations": [
+    {
+      "segment": 0,
+      "rule": "range",
+      "voice": "soprano",
+      "detail": "pitch 84 outside [60,81]",
+      "severity": "hard_relaxed"
+    },
+    {
+      "segment": 0,
+      "rule": "range",
+      "voice": "bass",
+      "detail": "pitch 36 outside [40,64]",
+      "severity": "hard_relaxed"
+    },
+    {
+      "segment": 1,
+      "rule": "range",
+      "voice": "soprano",
+      "detail": "pitch 83 outside [60,81]",
+      "severity": "hard_relaxed"
+    },
+    {
+      "segment": 1,
+      "rule": "upper_spacing",
+      "voice": "soprano",
+      "detail": "soprano-alto gap 16st > limit 12st",
+      "severity": "hard_relaxed"
+    },
+    {
+      "segment": 2,
+      "rule": "range",
+      "voice": "soprano",
+      "detail": "pitch 84 outside [60,81]",
+      "severity": "hard_relaxed"
+    },
+    {
+      "segment": 2,
+      "rule": "range",
+      "voice": "bass",
+      "detail": "pitch 36 outside [40,64]",
+      "severity": "hard_relaxed"
+    }
+  ]
+}
