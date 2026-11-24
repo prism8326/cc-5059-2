@@ -45,6 +45,7 @@ class Segment:
     fixed: dict[str, int] = field(default_factory=dict)
     duration: float = 1.0
     label_hint: str = ""
+    breath_after: float = 0.0
 
     @staticmethod
     def coerce(data) -> "Segment":
@@ -57,6 +58,7 @@ class Segment:
             fixed=fixed,
             duration=float(data.get("duration", 1.0)),
             label_hint=str(data.get("label_hint", "")),
+            breath_after=float(data.get("breath_after", 0.0) or 0.0),
         )
 
 
@@ -709,6 +711,7 @@ def _snapshot(inp, segments):
             {
                 "fixed": dict(seg.fixed),
                 "duration": seg.duration,
+                "breath_after": seg.breath_after,
                 "chord_candidates": [
                     {"root_pc": c.root_pc, "quality": c.quality, "label": c.label}
                     for c in seg.chord_candidates

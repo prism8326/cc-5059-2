@@ -17,6 +17,76 @@
 </header>
 
 <main>
+<section class="panel lab-panel" id="lab-panel">
+  <h2>0 · 可试听和声盲比实验 <span class="sub">固定女高 · 全句搜索 vs 有限前瞻 · 锁音/撤销诊断</span></h2>
+  <div class="lab-controls">
+    <label>谱例
+      <select id="lab-score"></select>
+    </label>
+    <label>实验编配器
+      <select id="lab-planner">
+        <option value="phrase">全句搜索</option>
+        <option value="lookahead">有限前瞻（仅为下一和弦留备选）</option>
+      </select>
+    </label>
+    <label>冲突优先级
+      <select id="lab-priority">
+        <option value="phrase">全句约束优先</option>
+        <option value="local">局部进行规则优先</option>
+      </select>
+    </label>
+    <label>中声部锁音段
+      <select id="lab-lock-segment"></select>
+    </label>
+    <label>声部
+      <select id="lab-lock-voice">
+        <option value="alto">女低 A</option>
+        <option value="tenor">男高 T</option>
+      </select>
+    </label>
+    <label>锁住的音
+      <select id="lab-lock-pitch"></select>
+    </label>
+    <div class="lab-buttons">
+      <button id="lab-run" class="primary">运行盲比</button>
+      <button id="lab-save-policy">保存默认政策</button>
+      <button id="lab-benchmark">实测两种政策</button>
+      <button id="lab-import">导入到下方编配器</button>
+    </div>
+  </div>
+  <div id="lab-policy-status" class="style-note"></div>
+
+  <div class="lab-audio-bar">
+    <strong>盲听：</strong>
+    <button id="lab-play-a" class="primary">▶ 样本 A</button>
+    <button id="lab-play-b" class="primary">▶ 样本 B</button>
+    <button id="lab-stop">■ 停止</button>
+    <button id="lab-reveal">揭盲并查看选择</button>
+    <button id="lab-choose-a">我选 A</button>
+    <button id="lab-choose-b">我选 B</button>
+    <span id="lab-blind-status" class="muted">先盲听，再揭盲；选择会随默认政策保存。</span>
+  </div>
+  <div id="lab-sample-voice-buttons" class="lab-voice-buttons"></div>
+  <div id="lab-cards" class="lab-cards"></div>
+
+  <div class="lab-two-col">
+    <div>
+      <h3>入选与被淘汰的声部路径</h3>
+      <div id="lab-paths" class="lab-paths"></div>
+    </div>
+    <div>
+      <h3>锁音逐个撤销 / 首次违例前检查</h3>
+      <div class="row-actions" style="margin-bottom:8px">
+        <button id="lab-undo-next">逐个撤销锁音</button>
+        <button id="lab-before-first-violation" class="primary">回到首次违例前</button>
+      </div>
+      <div id="lab-trace"></div>
+      <div id="lab-inspector" class="inspector"></div>
+    </div>
+  </div>
+  <div id="lab-benchmark"></div>
+</section>
+
 <section class="panel" id="panel-input">
   <h2>1 · 输入：旋律、和弦候选与固定音</h2>
   <div class="grid-controls">
@@ -107,5 +177,6 @@
 </footer>
 
 <script src="/web/app.js"></script>
+<script src="/web/lab.js"></script>
 </body>
 </html>

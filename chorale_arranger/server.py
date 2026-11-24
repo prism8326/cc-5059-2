@@ -30,6 +30,7 @@ from .events import (
 )
 from .rules import list_styles
 from .solver import ArrangementInput, Segment, solve
+from . import lab
 from .theory import Chord, VOICES, VOICE_RANGES, pitch_to_name
 
 WEB_DIR = os.path.join(os.path.dirname(__file__), "web")
@@ -60,6 +61,7 @@ def _parse_input(body) -> ArrangementInput:
             fixed=fixed,
             duration=float(raw.get("duration", 1.0)),
             label_hint=str(raw.get("label_hint", "")),
+            breath_after=float(raw.get("breath_after", 0.0) or 0.0),
         ))
     ranges = None
     if body.get("ranges"):
@@ -127,13 +129,36 @@ class Handler(BaseHTTPRequestHandler):
         return json.loads(self.rfile.read(length).decode("utf-8")) if length else {}
 
     def do_GET(self):
-        path = urlparse(self.path).path
+        parsed = urlparse(self.path)
+        path = parsed.path
+        from urllib.parse import parse_qs
+        query = parse_qs(parsed.query)
         if path in ("/", "/index.html"):
             return self._serve_static("index.html", "text/html; charset=utf-8")
         if path == "/api/styles":
             return self._send_json({"styles": list_styles(),
                                     "voices": list(VOICES),
                                     "voice_ranges": {v: list(b) for v, b in VOICE_RANGES.items()}})
+        if path == "/api/experiment/scores":
+            scores = []
+            for score_id in lab.LAB_SCORES:
+                doc = lab.score_document(score_id)
+                scores.append({
+                    "score_id": score_id,
+                    "title": doc.get("title", score_id),
+                    "fingerprint": lab.score_fingerprint(doc),
+                    "priority": doc.get("priority", "phrase"),
+                    "planner": doc.get("planner", "phrase"),
+                    "breath_marks": doc.get("breath_marks", []),
+                    "lock_sequence": doc.get("lock_sequence", []),
+                    "lock_options": lab.lock_options_for_document(doc),
+                    "document": doc,
+                })
+            return self._send_json({"scores": scores})
+        if path == "/api/experiment/policy":
+            score_id = (query.get("score_id") or [None])[0]
+            fingerprint = (query.get("fingerprint") or [None])[0]
+            return self._send_json({"policy": lab.get_policy(score_id, fingerprint)})
         if path.startswith("/web/"):
             return self._serve_static(path[len("/web/"):])
         return self._send_json({"error": "not found"}, 404)
@@ -144,6 +169,15 @@ class Handler(BaseHTTPRequestHandler):
             body = self._read_json()
             if path == "/api/solve":
                 return self._handle_solve(body)
+            if path in ("/api/experiment/compare", "/api/blind-compare"):
+                return self._handle_experiment_compare(body)
+            if path in ("/api/experiment/benchmark", "/api/blind-benchmark"):
+                return self._send_json(lab.benchmark_policy(
+                    lab._resolve_doc(body) if body.get("score_id") or body.get("document") else None,
+                    repeats=int(body.get("repeats", 3)),
+                ))
+            if path == "/api/experiment/policy":
+                return self._send_json({"policy": lab.save_policy(body.get("policy") or body)})
             if path == "/api/synth":
                 return self._handle_synth(body)
             if path == "/api/export":
@@ -159,9 +193,29 @@ class Handler(BaseHTTPRequestHandler):
 
     def _handle_solve(self, body):
         inp = _parse_input(body)
-        result = solve(inp)
+        if body.get("priority"):
+            inp = lab.apply_priority(inp, str(body["priority"]))
+        planner = body.get("planner", "phrase")
+        if planner == "lookahead":
+            from .lab import solve_lookahead
+            result = solve_lookahead(inp, int(body.get("lookahead", 1)))
+        else:
+            result = solve(inp)
         payload = _annotate(result)
         payload["events"] = arrangement_to_events(result)
+        return self._send_json(payload)
+
+    def _handle_experiment_compare(self, body):
+        payload = lab.compare_experiments(body)
+        key_root_pc = 0
+        for variant in payload.get("variants", {}).values():
+            result = variant.get("result") or {}
+            key_root_pc = result.get("key_root_pc", 0)
+            for seg in result.get("segments", []):
+                seg["note_names"] = {
+                    voice: pitch_to_name(midi, key_root_pc)
+                    for voice, midi in seg.get("voicing", {}).items()
+                }
         return self._send_json(payload)
 
     def _handle_synth(self, body):
@@ -220,6 +274,7 @@ class Handler(BaseHTTPRequestHandler):
                 "segments": [
                     {
                         "duration": seg.duration,
+                        "breath_after": seg.breath_after,
                         "fixed": seg.fixed,
                         "chord_candidates": [
                             {"root_pc": c.root_pc, "quality": c.quality, "label": c.label}

@@ -782,6 +782,7 @@ async function reimport(events) {
     state.seed = data.rebuilt_input.seed;
     state.segments = data.rebuilt_input.segments.map((s) => ({
       duration: s.duration,
+      breath_after: s.breath_after || 0,
       fixed: s.fixed || {},
       chord_candidates: s.chord_candidates.map((c) => ({
         root_pc: c.root_pc, quality: c.quality, label: c.label || "",
@@ -850,6 +851,21 @@ async function reimportFile(e) {
   }
   e.target.value = "";
 }
+
+window.choraleUI = {
+  loadDocument(doc, options = {}) {
+    state = JSON.parse(JSON.stringify(doc));
+    state.candidate_cap = state.candidate_cap ?? 0;
+    state.overrides = state.overrides || { levels: {}, weights: {}, params: {} };
+    syncGlobalControls();
+    renderRules();
+    renderSegments();
+    clearResult();
+    if (options.solve) return runSolve();
+  },
+  runSolve,
+  getState: () => state,
+};
 
 init().catch((err) => {
   document.body.insertAdjacentHTML("afterbegin",

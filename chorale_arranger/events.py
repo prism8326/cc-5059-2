@@ -33,7 +33,10 @@ def arrangement_to_events(result: SolveResult) -> dict:
     events = []
     cursor = 0.0
     for seg in result.segments:
-        durations = result.input_snapshot["segments"][seg.index]["duration"]
+        seg_meta = result.input_snapshot["segments"][seg.index]
+        durations = seg_meta["duration"]
+        breath = float(seg_meta.get("breath_after", 0.0) or 0.0)
+        sounding = max(0.125, float(durations) - breath)
         for i, voice in enumerate(VOICES):
             midi = seg.voicing[i]
             events.append({
@@ -44,6 +47,8 @@ def arrangement_to_events(result: SolveResult) -> dict:
                 "name": pitch_to_name(midi, result.key_root_pc),
                 "start_beat": round(cursor, 6),
                 "duration_beats": float(durations),
+                "sounding_beats": round(sounding, 6),
+                "breath_after_beats": breath,
                 "start_time": None,  # filled when a tempo is used for audio
                 "duration_time": None,
                 "velocity": 78,
@@ -78,10 +83,14 @@ def events_to_arrangement(payload: dict) -> ArrangementInput:
     n_segments = max(e["segment"] for e in events) + 1 if events else 0
     fixed = [dict() for _ in range(n_segments)]
     durations = [1.0] * n_segments
+    breaths = [0.0] * n_segments
     for e in events:
         if e.get("fixed"):
             fixed[e["segment"]][e["voice"]] = int(e["midi"])
         durations[e["segment"]] = float(e["duration_beats"])
+        breaths[e["segment"]] = max(
+            breaths[e["segment"]], float(e.get("breath_after_beats", 0.0) or 0.0)
+        )
     segments = []
     for k in range(n_segments):
         # Round-trip preserves fixed notes and durations; chord candidates
@@ -94,10 +103,17 @@ def events_to_arrangement(payload: dict) -> ArrangementInput:
                 Chord(int(c["root_pc"]), c["quality"], c.get("label", ""))
                 for c in raw["chord_candidates"]
             )
+            breath_after = float(raw.get("breath_after", breaths[k]) or 0.0)
         else:
             pcs = sorted({e["midi"] % 12 for e in events if e["segment"] == k})
             chords = (Chord(pcs[0], "power", label="reimported"),)
-        segments.append(Segment(chords, fixed[k], durations[k]))
+            breath_after = breaths[k]
+        segments.append(Segment(
+            chord_candidates=chords,
+            fixed=fixed[k],
+            duration=durations[k],
+            breath_after=breath_after,
+        ))
     return ArrangementInput(
         segments=segments,
         key_root_pc=int(payload.get("key_root_pc", 0)),
@@ -131,7 +147,8 @@ def write_midi(payload: dict, path: str, ppq: int = 480, bpm: float = 90.0) -> N
     entries = []  # (tick, order, raw_message)
     for e in payload["events"]:
         start = int(round(e["start_beat"] * ticks_per_beat))
-        end = int(round((e["start_beat"] + e["duration_beats"]) * ticks_per_beat))
+        sounding_beats = float(e.get("sounding_beats", e["duration_beats"]))
+        end = int(round((e["start_beat"] + sounding_beats) * ticks_per_beat))
         ch = VOICE_MIDI_CHANNEL[e["voice"]]
         vel = int(e.get("velocity", 78))
         pitch = int(e["midi"])
@@ -213,7 +230,7 @@ def _synthesize_numpy(payload, cfg, np):
     for e in payload["events"]:
         voice = e["voice"]
         start = int(e["start_beat"] * beat_s * sr)
-        dur_s = e["duration_beats"] * beat_s
+        dur_s = float(e.get("sounding_beats", e["duration_beats"])) * beat_s
         m = int(dur_s * sr)
         f0 = _midi_freq(e["midi"])
         t = np.arange(m) / sr
@@ -267,7 +284,7 @@ def _synthesize_pure(payload, cfg: SynthConfig):
     for e in payload["events"]:
         voice = e["voice"]
         start = int(e["start_beat"] * beat_s * sr)
-        m = int(e["duration_beats"] * beat_s * sr)
+        m = max(1, int(float(e.get("sounding_beats", e["duration_beats"])) * beat_s * sr))
         f0 = _midi_freq(e["midi"])
         env = _adsr(m, sr, cfg)
         pan = VOICE_PAN[voice]
